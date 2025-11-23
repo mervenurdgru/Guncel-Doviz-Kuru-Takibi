@@ -1,0 +1,83 @@
+/* Register.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #111827; /* Koyu arka plan */
+}
+
+.register-card {
+  background-color: #1f2937;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: white;
+  border: 1px solid #374151;
+}
+
+.register-card h2 {
+  margin-bottom: 20px;
+  color: #60a5fa; /* Mavi başlık */
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #9ca3af;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #4b5563;
+  background-color: #374151;
+  color: white;
+  outline: none;
+  box-sizing: border-box; /* Taşmaları engeller */
+}
+
+.form-group input:focus {
+  border-color: #60a5fa;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.login-redirect {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.login-redirect a {
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.login-redirect a:hover {
+  text-decoration: underline;
+}
