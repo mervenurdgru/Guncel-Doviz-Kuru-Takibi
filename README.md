@@ -41,3 +41,19 @@ Uygulama **Client-Server** mimarisine sahiptir:
 1.  **Backend:** TCMB'den veriyi çeker, işler ve kendi API endpoint'leri üzerinden dışarı açar. Ayrıca kullanıcı ve favori işlemlerini SQL veritabanında yönetir.
 2.  **Frontend:** Backend API'si ile haberleşir. Kullanıcıdan aldığı verileri API'ye gönderir, API'den gelen verileri görselleştirir.
 
+### Metot,Endpoint,Açıklama
+- POST,/api/Auth/register,Yeni kullanıcı kaydı
+- POST,/api/Auth/login,Kullanıcı girişi (Token döner)
+- GET,/api/Currency/latest,TCMB güncel kurları getirir
+- GET,/api/Currency/history/weekly/{code},7 günlük grafik verisi
+- GET,/api/Currency/history/monthly/{code},30 günlük grafik verisi
+- GET,/api/Favorites,Kullanıcının favorilerini getirir
+- POST,/api/Favorites,Favori ekler
+- DELETE,/api/Favorites/{code},Favori siler
+
+### Gelecek Planları (Roadmap)
+- Kullanıcı profil sayfası (Şifre değiştirme vb.)
+
+- Döviz alarm sistemi (Kur belirli seviyeye gelince bildirim atma).
+
+- Altın (Gram, Çeyrek) fiyatlarının eklenmesi.
