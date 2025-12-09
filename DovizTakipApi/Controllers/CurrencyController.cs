@@ -20,7 +20,6 @@ namespace DovizTakipApi.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        // Kur Modeli
         public class CurrencyRate
         {
             public string Code { get; set; } = string.Empty;
@@ -29,7 +28,6 @@ namespace DovizTakipApi.Controllers
             public decimal ForexSelling { get; set; }
         }
 
-        // 1. GÜNCEL KURLAR (TCMB'den Çeker)
         [HttpGet("latest")]
         public async Task<IActionResult> GetLatestRates()
         {
@@ -62,28 +60,40 @@ namespace DovizTakipApi.Controllers
                 return StatusCode(500, "Sunucu Hatası: " + ex.Message);
             }
         }
+[HttpGet("history/weekly/{code}")]
+public IActionResult GetWeeklyHistory(string code)
+{
+    var random = new Random();
+    var history = new List<object>();
+    double basePrice = code == "USD" ? 34.20 : (code == "EUR" ? 36.70 : 42.00);
 
-        // 2. GRAFİK VERİSİ (Simülasyon - İŞTE BU EKSİKTİ VEYA ÇALIŞMIYORDU)
-        [HttpGet("history/{code}")]
-        public IActionResult GetCurrencyHistory(string code)
+    for (int i = 6; i >= 0; i--) 
+    {
+        double price = basePrice + (random.NextDouble() * 1.5) - 0.75;
+        history.Add(new 
+        { 
+            Date = DateTime.Now.AddDays(-i).ToString("dd.MM"), 
+            Price = Math.Round(price, 4) 
+        });
+    }
+    return Ok(history);
+}
+        [HttpGet("history/monthly/{code}")]
+        public IActionResult GetMonthlyHistory(string code)
         {
             var random = new Random();
             var history = new List<object>();
-            
-            // Kura göre tahmini fiyat
             double basePrice = code == "USD" ? 34.20 : (code == "EUR" ? 36.70 : 42.00);
 
-            // Son 7 günün verisi
-            for (int i = 6; i >= 0; i--)
+            for (int i = 29; i >= 0; i--) 
             {
-                double price = basePrice + (random.NextDouble() * 1.0) - 0.5;
+                double price = basePrice + (random.NextDouble() * 3.0) - 1.5;
                 history.Add(new 
                 { 
-                    Date = DateTime.Now.AddDays(-i).ToString("dd.MM"), 
+                    Date = DateTime.Now.AddDays(-i).ToString("dd.MM.yyyy"), 
                     Price = Math.Round(price, 4) 
                 });
             }
-
             return Ok(history);
         }
     }

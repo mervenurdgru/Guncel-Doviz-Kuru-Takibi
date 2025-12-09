@@ -35,10 +35,9 @@ namespace DovizTakipApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            // Kullanıcı adı veya Email var mı kontrolü
             if (await _context.Users.AnyAsync(u => u.Username == request.Username || u.Email == request.Email))
             {
-                return BadRequest("Kullanıcı adı veya e-posta zaten kullanımda.");
+                return BadRequest(new {message = "Kullanıcı adı veya e-posta zaten kullanımda."});
             }
 
             _authService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -54,10 +53,9 @@ namespace DovizTakipApi.Controllers
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return StatusCode(201, new { user.Id, user.Username, user.Email });
+            return StatusCode(201, new { message= "Kayıt başarılı" });
         }
 
-        // AuthController.cs içindeki Login metodu:
 
 [HttpPost("login")]
 public async Task<IActionResult> Login(LoginRequest request)

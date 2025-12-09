@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using DovizTakipApi.Data;
 using DovizTakipApi.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DovizTakipApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] 
     public class FavoritesController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -16,27 +19,41 @@ namespace DovizTakipApi.Controllers
             _context = context;
         }
 
-        // 1. FAVORİLERİ GETİR
+        private int GetUserId()
+        {
+            var idClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (idClaim != null)
+            {
+                return int.Parse(idClaim.Value);
+            }
+            return 0; 
+        }
+
         [HttpGet]
         public IActionResult GetFavorites()
         {
-            // Sadece kodları (USD, EUR) liste olarak döndürür
+            int userId = GetUserId();
+
             var favorites = _context.FavoriteCurrencies
+                                    .Where(f => f.UserId == userId)
                                     .Select(f => f.CurrencyCode)
                                     .ToList();
             return Ok(favorites);
         }
 
-        // 2. FAVORİ EKLE
         [HttpPost]
         public IActionResult AddFavorite([FromBody] FavoriteCurrency model)
         {
-            // Zaten ekli mi kontrol et
+            int userId = GetUserId();
+
             var exists = _context.FavoriteCurrencies
-                .Any(f => f.CurrencyCode == model.CurrencyCode);
+                .Any(f => f.CurrencyCode == model.CurrencyCode && f.UserId == userId);
 
             if (!exists)
             {
+
+                model.UserId = userId; 
+                
                 _context.FavoriteCurrencies.Add(model);
                 _context.SaveChanges();
             }
@@ -44,13 +61,13 @@ namespace DovizTakipApi.Controllers
             return Ok(new { message = "Eklendi" });
         }
 
-        // 3. FAVORİ SİL (İŞTE BU METOT EKSİKSE SİLME ÇALIŞMAZ)
         [HttpDelete("{code}")]
         public IActionResult RemoveFavorite(string code)
         {
-            // Veritabanında bu kodu bul (Örn: USD)
+            int userId = GetUserId();
+
             var fav = _context.FavoriteCurrencies
-                .FirstOrDefault(f => f.CurrencyCode == code);
+                .FirstOrDefault(f => f.CurrencyCode == code && f.UserId == userId);
 
             if (fav != null)
             {

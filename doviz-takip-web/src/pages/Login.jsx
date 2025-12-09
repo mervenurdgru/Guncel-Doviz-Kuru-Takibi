@@ -1,22 +1,18 @@
-// src/pages/Login.jsx
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../services/api';
-import './Login.css'; // Eğer css dosyan varsa
+import './Login.css'; 
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState(''); // Kullanıcı Adı VEYA Email
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Backend'e 'username' parametresi olarak gönderiyoruz
       const res = await loginUser(identifier, password);
       
-      // Gelen Token'ı kaydediyoruz
       localStorage.setItem('userToken', res.data.token);
       
       alert("Giriş başarılı!");

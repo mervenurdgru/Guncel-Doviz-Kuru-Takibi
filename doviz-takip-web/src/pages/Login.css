@@ -1,16 +1,14 @@
-/* src/pages/Login.css */
-
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #111827; /* Koyu Arka Plan */
+    background-color: #111827; 
     margin: 0;
 }
 
 .login-card {
-    background-color: #1f2937; /* Kart Rengi */
+    background-color: #1f2937;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);

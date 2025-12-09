@@ -5,14 +5,13 @@ import './Register.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState(''); // Yeni Email State'i
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      // Artık email'i de gönderiyoruz
       await register(username, email, password);
       alert("Kayıt başarılı! Giriş yapabilirsiniz.");
       navigate('/login');
@@ -37,7 +36,7 @@ const Register = () => {
             />
           </div>
           
-          {/* YENİ EKLENEN EMAIL ALANI */}
+          {}
           <div className="form-group">
             <label>E-Posta</label>
             <input 
